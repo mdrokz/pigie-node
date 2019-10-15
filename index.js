@@ -9,13 +9,24 @@ var userModel = require('./models/users.models');
 
 
 router.route('/login').post(function (req, res) {
+    if (req.body.Email && req.body.Password) {
+        userModel.findOne({ Email: req.body.Email, Password: req.body.Password }, (err,res1) => {
+                if(res1){
+                    res.json({message:"User Found"});
+                }
 
+                else{
+                    res.json({message:"User Not Found"});
+                }
+                console.log(err,res1);
+        });
+    }
 });
 
 router.route('/register').post(function (req, res) {
 
 
-    userModel.create(req.body,req.body).finally(() => {
+    userModel.create(req.body).finally(() => {
         console.log('done');
     }
 
